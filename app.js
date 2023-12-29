@@ -67,7 +67,7 @@ async function authorize() {
 }
 
 /**
- * Lists the labels in the user's account.
+ * Getting Unread Mails
  *
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
@@ -121,9 +121,17 @@ async function sendResponse(sender, msgId, gmail) {
         raw: base64Email,
       },
     },
-    (err, res) => {
+    async (err, res) => {
       if (!err) {
         console.log("Reply Sent Successfully");
+        await gmail.users.messages.modify({
+          userId: "me",
+          id: msgId,
+          requestBody: {
+            removeLabelIds: ["UNREAD"],
+            addLabelIds: ["INBOX"],
+          },
+        });
       } else {
         console.log(err);
       }
