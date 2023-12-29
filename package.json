@@ -1,0 +1,20 @@
+{
+  "name": "auto-mailer",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "cheerio": "^1.0.0-rc.12",
+    "googleapis": "^105.0.0",
+    "js-base64": "^3.7.5",
+    "mailparser": "^3.6.5",
+    "open": "^10.0.2"
+  },
+  "description": ""
+}
