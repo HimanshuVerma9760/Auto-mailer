@@ -6,7 +6,7 @@ const { google } = require("googleapis");
 const { gmail } = require("googleapis/build/src/apis/gmail");
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"];
+const SCOPES = ["https://www.googleapis.com/auth/gmail.modify"];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -139,4 +139,14 @@ async function sendResponse(sender, msgId, gmail) {
   );
 }
 
-authorize().then(getMail).catch(console.error);
+function authorizeAndGetMail() {
+  authorize().then(getMail).catch(console.error);
+}
+
+// Call the function immediately
+authorizeAndGetMail();
+
+// Set up an interval to call the function every 5 minutes (adjust as needed)
+const intervalInMinutes = 45;
+setInterval(authorizeAndGetMail, intervalInMinutes * 1000);
+// authorize().then(getMail).catch(console.error);
