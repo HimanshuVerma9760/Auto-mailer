@@ -143,10 +143,6 @@ function authorizeAndGetMail() {
   authorize().then(getMail).catch(console.error);
 }
 
-// Call the function immediately
 authorizeAndGetMail();
-
-// Set up an interval to call the function every 5 minutes (adjust as needed)
 const intervalInMinutes = 45;
 setInterval(authorizeAndGetMail, intervalInMinutes * 1000);
-// authorize().then(getMail).catch(console.error);
