@@ -3,7 +3,6 @@ const path = require("path");
 const process = require("process");
 const { authenticate } = require("@google-cloud/local-auth");
 const { google } = require("googleapis");
-const { gmail } = require("googleapis/build/src/apis/gmail");
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ["https://www.googleapis.com/auth/gmail.modify"];
@@ -173,12 +172,27 @@ async function sendResponse(sender, msgId, gmail) {
   );
 }
 
+let isAuthorizing = false;
+
 // Function to authorize and get mail on startup
 function authorizeAndGetMail() {
-  authorize().then(getMail).catch(console.error);
+  if (isAuthorizing) {
+    // If authorization is already in progress, skip this iteration
+    return;
+  }
+
+  isAuthorizing = true;
+
+  authorize()
+    .then(getMail)
+    .catch(console.error)
+    .finally(() => {
+      isAuthorizing = false;
+    });
 }
 
 authorizeAndGetMail();
-// Set interval to authorize and get mail every 10 minutes
+
+// Set interval to authorize and get mail every 10 seconds
 const intervalInMinutes = 10;
 setInterval(authorizeAndGetMail, intervalInMinutes * 1000);
