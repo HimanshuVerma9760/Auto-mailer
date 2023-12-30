@@ -78,8 +78,13 @@ async function getMail(auth) {
     q: "is:unread",
     maxResults: 1,
   });
-  const myMessages = res.data.messages;
-  getSender(myMessages, gmail);
+  if (res.data.messages === undefined) {
+    console.log("No new message");
+    return;
+  } else {
+    const myMessages = res.data.messages;
+    getSender(myMessages, gmail);
+  }
 }
 async function getSender(myMessages, gmail) {
   const msg = await gmail.users.messages.get({
@@ -92,9 +97,7 @@ async function getSender(myMessages, gmail) {
 }
 async function sendResponse(sender, msgId, gmail) {
   const body = `I hope this email finds you well. Thank you for reaching out to me.
-  
   I regret to inform you that I am currently out of the office on vacation and will not be able to respond to emails until my return soon. I apologize for any inconvenience this may cause.
-  
   If your matter is urgent, please contact 123456789 . Otherwise, I appreciate your understanding, and I will do my best to respond to your email promptly upon my return.
   
   Thank you for your patience.
@@ -144,5 +147,5 @@ function authorizeAndGetMail() {
 }
 
 authorizeAndGetMail();
-const intervalInMinutes = 45;
+const intervalInMinutes = 10;
 setInterval(authorizeAndGetMail, intervalInMinutes * 1000);
