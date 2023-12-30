@@ -153,8 +153,6 @@ async function sendResponse(sender, msgId, gmail) {
     },
     async (err, res) => {
       if (!err) {
-        // If the response is sent successfully, log a success message
-        console.log("Reply Sent Successfully");
         // Mark the original message as read and move it to the inbox
         await gmail.users.messages.modify({
           userId: "me",
